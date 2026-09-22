@@ -1,0 +1,21 @@
+@startuml
+''commento
+''attori - 2 modi alternativi
+''PlantUML non è UML.
+''PlantUML non è un programma
+:G: as g
+''alias g="Il gestore"
+actor "Il gestore" as h
+
+''Use case - 2 modi alternativi
+(prendere in prestito) as prestito
+usecase "controllare tessera" as cTess
+
+''Include
+prestito ..> cTess : <<include>>
+g <|-- h
+
+g - prestito
+
+
+@enduml

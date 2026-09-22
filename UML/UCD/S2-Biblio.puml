@@ -1,0 +1,29 @@
+@startuml
+:Bibliotecario: as b
+:Studente: as s
+'':Computer: as c
+
+rectangle Biblioteca {
+(Restituire libro) as rest
+(prenotare libro) as pren
+''(effettuare prestito) as pres
+usecase pres as "
+Effettuare prestito
+--
+E.P.: se libro non presente
+"
+(cercare libro) as cercare
+(Controllare tessera) as ctrl
+(Controllare libri in ritardo) as rit
+}
+
+pren ..> ctrl : <<include>>
+b - pren
+s - cercare
+b - pres
+b - rest
+b - rit
+
+pres <.. pren : <<extend>>
+pres ..> ctrl : <<include>>
+@enduml
