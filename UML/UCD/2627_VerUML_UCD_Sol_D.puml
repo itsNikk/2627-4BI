@@ -1,0 +1,54 @@
+@startuml
+left to right direction
+
+actor "Visitatore" as VI
+actor "Spettatore" as UT
+actor "Curatore della rassegna" as CO
+actor "Referente della distribuzione" as ES
+actor "Maschera" as AD
+actor "Capo sala" as SU
+actor "ViaPay" as PG
+UT --|> VI
+SU --|> AD
+rectangle "CineEstate" {
+  usecase "Consulta programma" as CP
+  usecase AB as "Acquista biglietto
+--
+E.P.:
+servizi aggiuntivi"
+  usecase "Effettua pagamento" as EP
+  usecase "Paga con carta" as P1
+  usecase "Paga con voucher cultura" as P2
+  usecase "Noleggia sdraio" as EX
+  usecase "Gestisci programma" as GP
+  usecase "Carica scheda di proiezione" as CA
+  usecase VB as "Valida biglietto
+--
+E.P.:
+biglietto non valido"
+  usecase "Segnala QR già usato" as SG
+  usecase "Consulta registro ingressi" as CR
+  usecase "Richiedi rimborso" as RR
+}
+VI -- CP
+UT -- AB
+UT -- RR
+CO -- GP
+ES -- CA
+AD -- VB
+SU -- CR
+EP -- PG
+RR -- PG
+AB ..> EP : <<include>>
+EX ..> AB : <<extend>>
+P1 --|> EP
+P2 --|> EP
+SG ..> VB : <<extend>>
+note right of RR
+  Solo con la linea "rimborso sì
+  nei casi detti in riunione"
+  (contraddizione dichiarata)
+end note
+note bottom of VB : registrazione automatica dell'ingresso (passo)
+note "massimo 4 biglietti per persona per serata\nscheda di proiezione almeno 7 giorni prima della serata" as N1
+@enduml

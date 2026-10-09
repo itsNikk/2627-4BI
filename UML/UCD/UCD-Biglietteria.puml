@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+:Cliente: as c
+:Cassiere: as ca
+:Titolare: as t
+:Tesserato: as tess
+
+rectangle Biglietteria {
+    (Effetuare pagamento) as pay
+    (Acquisto biglietto) as buy
+    (applicare codice sconto) as discount
+}
+
+c -- buy
+''include = relazione di dipendenza obbligatora
+buy ..> pay : <<include>>
+''extend = relazione di dipendenza eventuale
+buy <.. discount : <<extend>>
+
+note left of buy {
+Prevedere inserimento
+posto e scelta film
+}
+
+
+@enduml
