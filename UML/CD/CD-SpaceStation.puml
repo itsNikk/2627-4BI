@@ -1,19 +1,5 @@
  @startuml 2627_UML_StazioneSpaziale_Esercitazione
-skinparam style strictuml
-hide circle
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam shadowing false
-skinparam dpi 150
-skinparam defaultFontName Arial
-skinparam defaultFontSize 13
-skinparam nodesep 70
-skinparam ranksep 80
-skinparam class {
-  BackgroundColor White
-  BorderColor Black
-  ArrowColor Black
-}
+!includeurl https://gist.githubusercontent.com/itsNikk/77424b2179b366b47c498ad5cb63cee1/raw/447518eb06d8f2009828c656e3d9a2ecafc4355f/uml-preset.iuml
 
 class StazioneSpaziale {
   - nome : String
