@@ -1,0 +1,123 @@
+ @startuml 2627_UML_StazioneSpaziale_Esercitazione
+skinparam style strictuml
+hide circle
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam nodesep 70
+skinparam ranksep 80
+skinparam class {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+
+class StazioneSpaziale {
+  - nome : String
+  - quotaOrbitaleKm : int
+  - potenzaPannelliKw : double
+  + StazioneSpaziale(nome : String, quotaOrbitaleKm : int, potenzaPannelliKw : double, pannello : PannelloControllo)
+  + getNome() : String
+  + getNumModuli() : int
+  + aggiungiModulo(m : ModuloStazione) : boolean
+  + rimuoviModulo(codice : String) : boolean
+  + consumoTotale() : double
+  + bilancioEnergetico() : double
+  + moduloPiuEnergivoro() : ModuloStazione
+  + eseguiDiagnostica() : int
+  - trovaModulo(codice : String) : ModuloStazione
+}
+
+class PannelloControllo {
+  - sogliaAllarmeKw : double
+  + PannelloControllo(sogliaAllarmeKw : double)
+  + inAllarme(m : ModuloStazione) : boolean
+  + diagnostica(m : ModuloStazione) : String
+  + inviaAllerta(a : Astronauta, testo : String) : void
+}
+
+abstract class ModuloStazione {
+  # codice : String
+  # massaTonnellate : double
+  + ModuloStazione(codice : String, massaTonnellate : double)
+  + getCodice() : String
+  + getMassaTonnellate() : double
+  + {abstract} consumoEnergetico() : double
+  + descrizione() : String
+}
+
+class SerraIdroponica {
+  - superficieColtivata : double
+  + SerraIdroponica(codice : String, massaTonnellate : double, superficieColtivata : double)
+  + consumoEnergetico() : double
+}
+
+class Laboratorio {
+  - disciplina : String
+  + Laboratorio(codice : String, massaTonnellate : double, disciplina : String)
+  + getNumEsperimenti() : int
+  + avviaEsperimento(e : Esperimento) : boolean
+  + esperimentiInCorso() : int
+  + consumoEnergetico() : double
+}
+
+class ModuloAbitativo {
+  - volumeAbitabile : double
+  + ModuloAbitativo(codice : String, massaTonnellate : double, volumeAbitabile : double)
+  + getNumOccupanti() : int
+  + aggiungiOccupante(a : Astronauta) : boolean
+  + rimuoviOccupante(a : Astronauta) : boolean
+  + consumoEnergetico() : double
+}
+
+class Astronauta {
+  - nome : String
+  - specializzazione : String
+  - messaggi : String [0..5]
+  - {static} numeroAstronauti : int
+  + Astronauta(nome : String, specializzazione : String)
+  + getNome() : String
+  + getAlloggio() : ModuloAbitativo
+  + setAlloggio(m : ModuloAbitativo) : void
+  + getNumEsperimenti() : int
+  + haPostoPerEsperimenti() : boolean
+  + partecipaA(e : Esperimento) : boolean
+  + getNumSubordinati() : int
+  + aggiungiSubordinato(a : Astronauta) : boolean
+  + riceviMessaggio(testo : String) : void
+  + getNumMessaggi() : int
+  + getMessaggio(i : int) : String
+  + {static} getNumeroAstronauti() : int
+}
+
+class Esperimento {
+  - titolo : String
+  - giorniRimanenti : int
+  + Esperimento(titolo : String, durataGiorni : int)
+  + getTitolo() : String
+  + getNumRicercatori() : int
+  + aggiungiRicercatore(a : Astronauta) : boolean
+  + avanzaGiorni(n : int) : void
+  + isConcluso() : boolean
+}
+
+ModuloStazione <|-- SerraIdroponica
+ModuloStazione <|-- Laboratorio
+ModuloStazione <|-- ModuloAbitativo
+
+StazioneSpaziale "0..1" --> "moduli\n1..12" ModuloStazione : comprende >
+StazioneSpaziale "1" -right-> "1" PannelloControllo : dispone di >
+Laboratorio "1" --> "0..5" Esperimento : ospita >
+
+ModuloAbitativo "alloggio\n0..1" -- "occupanti\n0..4" Astronauta : alloggia >
+Esperimento "esperimenti\n0..3" -right- "ricercatori\n1..3" Astronauta : < conduce
+
+Astronauta "comandante 0..1" --> "\n   subordinati 0..6" Astronauta : coordina
+
+PannelloControllo ..> ModuloStazione : <<call>>
+PannelloControllo ..> Astronauta : <<call>>
+
+@enduml

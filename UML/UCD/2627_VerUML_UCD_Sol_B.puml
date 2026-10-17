@@ -1,0 +1,54 @@
+@startuml
+left to right direction
+
+actor "Visitatore" as VI
+actor "Cliente registrato" as UT
+actor "Responsabile del programma" as CO
+actor "Referente della casa editrice" as ES
+actor "Steward" as AD
+actor "Capo steward" as SU
+actor "PagaFacile" as PG
+UT --|> VI
+SU --|> AD
+rectangle "FumettoFest" {
+  usecase "Consulta programma" as CP
+  usecase AB as "Acquista ingresso
+--
+E.P.:
+se servizi aggiuntivi prenotati"
+  usecase "Effettua pagamento" as EP
+  usecase "Paga con carta" as P1
+  usecase "Paga con buono regalo" as P2
+  usecase "Prenota posto auto" as EX
+  usecase "Gestisci programma" as GP
+  usecase "Carica scheda stand" as CA
+  usecase VB as "Valida ingresso
+--
+E.P.:
+se QR non valido"
+  usecase "Segnala QR già usato" as SG
+  usecase "Consulta registro ingressi" as CR
+  usecase "Richiedi rimborso" as RR
+}
+VI -- CP
+UT -- AB
+UT -- RR
+CO -- GP
+ES -- CA
+AD -- VB
+SU -- CR
+EP -- PG
+RR -- PG
+AB ..> EP : <<include>>
+EX ..> AB : <<extend>>
+P1 --|> EP
+P2 --|> EP
+SG ..> VB : <<extend>>
+note right of RR
+  Solo con la linea "rimborso sì
+  nei casi detti in riunione"
+  (contraddizione dichiarata)
+end note
+note bottom of VB : registrazione automatica dell'ingresso (passo)
+note "massimo 6 ingressi per persona\nscheda dello stand almeno 10 giorni prima dell'apertura" as N1
+@enduml

@@ -1,0 +1,54 @@
+@startuml
+left to right direction
+
+actor "Visitatore" as VI
+actor "Utente registrato" as UT
+actor "Responsabile del palinsesto" as CO
+actor "Agente dello streamer" as ES
+actor "Hostess ai varchi" as AD
+actor "Supervisore dei varchi" as SU
+actor "NetPay" as PG
+UT --|> VI
+SU --|> AD
+rectangle "GameWeek Sesto" {
+  usecase "Consulta palinsesto" as CP
+  usecase AB as "Acquista biglietto
+--
+E.P.:
+servizi aggiuntivi presenti"
+  usecase "Effettua pagamento" as EP
+  usecase "Paga con carta" as P1
+  usecase "Paga con gift card" as P2
+  usecase "Aggiungi kit di benvenuto" as EX
+  usecase "Gestisci palinsesto" as GP
+  usecase "Carica requisiti tecnici" as CA
+  usecase VB as "Valida biglietto
+--
+E.P.:
+se biglietto non valido"
+  usecase "Segnala QR già usato" as SG
+  usecase "Consulta registro ingressi" as CR
+  usecase "Richiedi rimborso" as RR
+}
+VI -- CP
+UT -- AB
+UT -- RR
+CO -- GP
+ES -- CA
+AD -- VB
+SU -- CR
+EP -- PG
+RR -- PG
+AB ..> EP : <<include>>
+EX ..> AB : <<extend>>
+P1 --|> EP
+P2 --|> EP
+SG ..> VB : <<extend>>
+note right of RR
+  Solo con la linea "rimborso sì
+  nei casi detti in riunione"
+  (contraddizione dichiarata)
+end note
+note bottom of VB : registrazione automatica dell'ingresso (passo)
+note "massimo 5 biglietti per persona\nrequisiti tecnici almeno 10 giorni prima della data" as N1
+@enduml

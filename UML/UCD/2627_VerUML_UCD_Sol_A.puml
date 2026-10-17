@@ -1,0 +1,54 @@
+@startuml
+left to right direction
+
+actor "Visitatore" as VI
+actor "Spettatore" as UT
+actor "Direttore artistico" as CO
+actor "Manager dell'artista" as ES
+actor "Addetto ai cancelli" as AD
+actor "Responsabile sicurezza" as SU
+actor "PayPass" as PG
+UT --|> VI
+SU --|> AD
+rectangle "SoundWave Festival" {
+  usecase "Consulta programma" as CP
+  usecase AB as "Acquista biglietto
+--
+E.P.:
+se servizi aggiuntivi presenti"
+  usecase "Effettua pagamento" as EP
+  usecase "Paga con carta" as P1
+  usecase "Paga con Carta Cultura" as P2
+  usecase "Prenota navetta" as EX
+  usecase "Gestisci programma" as GP
+  usecase "Carica scheda tecnica" as CA
+  usecase VB as "Valida biglietto
+--
+E.P.:
+se biglietto non valido"
+  usecase "Segnala biglietto già usato" as SG
+  usecase "Consulta registro ingressi" as CR
+  usecase "Richiedi rimborso" as RR
+}
+VI -- CP
+UT -- AB
+UT -- RR
+CO -- GP
+ES -- CA
+AD -- VB
+SU -- CR
+EP -- PG
+RR -- PG
+AB ..> EP : <<include>>
+EX ..> AB : <<extend>>
+P1 --|> EP
+P2 --|> EP
+SG ..> VB : <<extend>>
+note right of RR
+  Solo con la linea "rimborso sì
+  nei casi detti in riunione"
+  (contraddizione dichiarata)
+end note
+note bottom of VB : registrazione automatica dell'ingresso (passo)
+note "massimo 4 biglietti per persona\nscheda tecnica almeno 15 giorni prima della data" as N1
+@enduml
