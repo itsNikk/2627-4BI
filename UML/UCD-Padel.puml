@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+actor Socio
+actor "Addetto reception" as AR
+actor Gestore
+rectangle "Prenotazione campi" {
+  usecase "Prenota campo" as P
+  usecase "Identifica socio" as I
+  usecase "Registra pagamento" as RP
+  usecase "Imposta orari" as O
+  usecase "Visualizza disponibilità campi" as V
+}
+Socio -- P
+Socio -- V
+AR -- RP
+Gestore -- O
+P ..> I : <<include>>
+note bottom
+  Variante "solo soci + pagamento in reception".
+  Con "chiunque + online" spariscono Identifica socio
+  e Registra pagamento.
+end note
+@enduml
