@@ -1,4 +1,12 @@
- @startuml 2627_UML_StazioneSpaziale_Esercitazione
+@startuml 2627_UML_CD_01_StazioneSpaziale_Completo
+' Class diagram di riepilogo: Stazione Spaziale
+' Elementi presenti:
+'   associazioni con nome, verso di lettura, ruoli, molteplicita' e navigabilita'
+'   (singola e bilaterale), associazione riflessiva,
+'   generalizzazione, classe astratta (nome in corsivo),
+'   dipendenze con stereotipo <<call>>, attributo statico (sottolineato).
+' Classi a due scomparti: nome e attributi, senza tipi e senza visibilita'.
+
 skinparam style strictuml
 hide circle
 hide empty members
@@ -7,7 +15,7 @@ skinparam shadowing false
 skinparam dpi 150
 skinparam defaultFontName Arial
 skinparam defaultFontSize 13
-skinparam nodesep 70
+skinparam nodesep 120
 skinparam ranksep 80
 skinparam class {
   BackgroundColor White
@@ -19,104 +27,110 @@ class StazioneSpaziale {
   - nome : String
   - quotaOrbitaleKm : int
   - potenzaPannelliKw : double
+  --
   + StazioneSpaziale(nome : String, quotaOrbitaleKm : int, potenzaPannelliKw : double, pannello : PannelloControllo)
   + getNome() : String
+  + getPannello() : PannelloControllo
   + getNumModuli() : int
   + aggiungiModulo(m : ModuloStazione) : boolean
-  + rimuoviModulo(codice : String) : boolean
+  - trovaModulo(codice : String) : ModuloStazione
+  + massaTotale() : double
   + consumoTotale() : double
   + bilancioEnergetico() : double
-  + moduloPiuEnergivoro() : ModuloStazione
   + eseguiDiagnostica() : int
-  - trovaModulo(codice : String) : ModuloStazione
 }
 
 class PannelloControllo {
   - sogliaAllarmeKw : double
+  --
   + PannelloControllo(sogliaAllarmeKw : double)
+  + getSogliaAllarmeKw() : double
   + inAllarme(m : ModuloStazione) : boolean
   + diagnostica(m : ModuloStazione) : String
-  + inviaAllerta(a : Astronauta, testo : String) : void
+  + inviaAllerta(a : Astronauta, testo : String)
 }
 
 abstract class ModuloStazione {
   # codice : String
   # massaTonnellate : double
+  --
   + ModuloStazione(codice : String, massaTonnellate : double)
   + getCodice() : String
   + getMassaTonnellate() : double
-  + {abstract} consumoEnergetico() : double
+  + consumoEnergetico() : double
   + descrizione() : String
+}
+
+class ModuloAbitativo {
+  - volumeAbitabile : double
+  --
+  + ModuloAbitativo(codice : String, massaTonnellate : double, volumeAbitabile : double)
+  + getNumOccupanti() : int
+  + aggiungiOccupante(a : Astronauta) : boolean
+  + consumoEnergetico() : double
 }
 
 class SerraIdroponica {
   - superficieColtivata : double
+  --
   + SerraIdroponica(codice : String, massaTonnellate : double, superficieColtivata : double)
   + consumoEnergetico() : double
 }
 
 class Laboratorio {
   - disciplina : String
+  --
   + Laboratorio(codice : String, massaTonnellate : double, disciplina : String)
   + getNumEsperimenti() : int
   + avviaEsperimento(e : Esperimento) : boolean
-  + esperimentiInCorso() : int
-  + consumoEnergetico() : double
-}
-
-class ModuloAbitativo {
-  - volumeAbitabile : double
-  + ModuloAbitativo(codice : String, massaTonnellate : double, volumeAbitabile : double)
-  + getNumOccupanti() : int
-  + aggiungiOccupante(a : Astronauta) : boolean
-  + rimuoviOccupante(a : Astronauta) : boolean
   + consumoEnergetico() : double
 }
 
 class Astronauta {
   - nome : String
   - specializzazione : String
-  - messaggi : String [0..5]
   - {static} numeroAstronauti : int
+  --
   + Astronauta(nome : String, specializzazione : String)
   + getNome() : String
   + getAlloggio() : ModuloAbitativo
-  + setAlloggio(m : ModuloAbitativo) : void
+  + setAlloggio(m : ModuloAbitativo)
   + getNumEsperimenti() : int
-  + haPostoPerEsperimenti() : boolean
   + partecipaA(e : Esperimento) : boolean
   + getNumSubordinati() : int
   + aggiungiSubordinato(a : Astronauta) : boolean
-  + riceviMessaggio(testo : String) : void
-  + getNumMessaggi() : int
-  + getMessaggio(i : int) : String
+  + riceviMessaggio(testo : String)
   + {static} getNumeroAstronauti() : int
 }
 
 class Esperimento {
   - titolo : String
-  - giorniRimanenti : int
+  - durataGiorni : int
+  --
   + Esperimento(titolo : String, durataGiorni : int)
   + getTitolo() : String
   + getNumRicercatori() : int
   + aggiungiRicercatore(a : Astronauta) : boolean
-  + avanzaGiorni(n : int) : void
-  + isConcluso() : boolean
 }
 
+' Generalizzazione
 ModuloStazione <|-- SerraIdroponica
 ModuloStazione <|-- Laboratorio
 ModuloStazione <|-- ModuloAbitativo
 
+' Associazioni a navigabilita' singola
 StazioneSpaziale "0..1" --> "moduli\n1..12" ModuloStazione : comprende >
 StazioneSpaziale "1" -right-> "1" PannelloControllo : dispone di >
-Laboratorio "1" --> "0..5" Esperimento : ospita >
+Laboratorio "1" --> "0..*" Esperimento : ospita >
 
+' Associazioni a navigabilita' bilaterale (linea senza punte)
 ModuloAbitativo "alloggio\n0..1" -- "occupanti\n0..4" Astronauta : alloggia >
-Esperimento "esperimenti\n0..3" -right- "ricercatori\n1..3" Astronauta : < conduce
+Esperimento "esperimenti\n0..*" -right- "ricercatori\n1..3" Astronauta : < conduce
 
-Astronauta "comandante 0..1" --> "\n   subordinati 0..6" Astronauta : coordina
+' Associazione riflessiva: i ruoli distinguono le due estremita'
+Astronauta "comandante 0..1" --> "subordinati 0..*" Astronauta : coordina
 
+' Dipendenze: uso transitorio, solo come parametro di un metodo
 PannelloControllo ..> ModuloStazione : <<call>>
 PannelloControllo ..> Astronauta : <<call>>
 
