@@ -4,7 +4,7 @@
 '   associazioni con nome, verso di lettura, ruoli, molteplicita' e navigabilita'
 '   (singola e bilaterale), associazione riflessiva,
 '   generalizzazione, classe astratta (nome in corsivo),
-'   dipendenze con stereotipo <<call>>, attributo statico (sottolineato).
+'   dipendenze con s tereotipo <<call>>, attributo statico (sottolineato).
 ' Classi a due scomparti: nome e attributi, senza tipi e senza visibilita'.
 
 skinparam style strictuml
@@ -57,7 +57,7 @@ abstract class ModuloStazione {
   + ModuloStazione(codice : String, massaTonnellate : double)
   + getCodice() : String
   + getMassaTonnellate() : double
-  + consumoEnergetico() : double
+  + {abstract} consumoEnergetico() : double
   + descrizione() : String
 }
 
