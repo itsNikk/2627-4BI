@@ -57,7 +57,7 @@ abstract class ModuloStazione {
   + ModuloStazione(codice : String, massaTonnellate : double)
   + getCodice() : String
   + getMassaTonnellate() : double
-  + {abstract} consumoEnergetico() : double
+  + {abstract}  consumoEnergetico() : double
   + descrizione() : String
 }
 
