@@ -1,0 +1,23 @@
+@startuml
+
+actor Cliente as c
+participant Sistema as s
+
+autonumber
+
+c -> s : scegliLavatrice(codice)
+s -->c : prezzo
+c -> s : pagareConCarta(carta)
+activate s
+s -> s : scalaCredito(carta)
+
+alt pagamento effettauato
+s --> c : tempoLavaggio
+else pagamento non riuscito
+s --> c : errore
+end
+
+deactivate s
+
+''destroy s
+@enduml

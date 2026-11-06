@@ -10,5 +10,8 @@ public abstract class ModuloStazione {
     public String getCodice() { return codice; }
     public double getMassaTonnellate() { return massaTonnellate; }
     public abstract double consumoEnergetico();
-    public String descrizione() { return null; }
+
+    public String descrizione() {
+        return this.codice + " (" + this.massaTonnellate + " t): " + this.consumoEnergetico() + " kW";
+    }
 }

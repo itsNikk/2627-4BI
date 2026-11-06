@@ -18,12 +18,37 @@ public class StazioneSpaziale {
     public String getNome() { return nome; }
     public PannelloControllo getPannello() { return pannello; }
     public int getNumModuli() { return numModuli; }
-    public boolean aggiungiModulo(ModuloStazione m) { return false; }
+    public boolean aggiungiModulo(ModuloStazione m) {
+        if (numModuli == moduli.length) return false;
+        if (trovaModulo(m.getCodice()) != null) return false;
+        moduli[numModuli] = m;
+        numModuli++;
+        return true;
+    }
     public boolean rimuoviModulo(String codice) { return false; }
-    private ModuloStazione trovaModulo(String codice) { return null; }
-    public double massaTotale() { return 0; }
-    public double consumoTotale() { return 0; }
-    public double bilancioEnergetico() { return 0; }
+    private ModuloStazione trovaModulo(String codice) {
+        for (int i = 0; i < numModuli; i++) {
+            if (moduli[i].getCodice().equals(codice)) {
+                return moduli[i];
+            }
+        }
+        return null;
+    }
+    public double massaTotale() {
+        double totale = 0;
+        for (int i = 0; i < numModuli; i++) totale = totale + moduli[i].getMassaTonnellate();
+        return totale;
+    }
+    public double consumoTotale() {
+        double totale = 0;
+        for (int i = 0; i < numModuli; i++) {
+            totale = totale + moduli[i].consumoEnergetico();
+        }
+        return totale;
+    }
+    public double bilancioEnergetico() {
+        return potenzaPannelliKw - consumoTotale();
+    }
     public ModuloStazione moduloPiuEnergivoro() { return null; }
     public int eseguiDiagnostica() { return 0; }
 }

@@ -7,5 +7,7 @@ public class SerraIdroponica extends ModuloStazione {
     }
 
     @Override
-    public double consumoEnergetico() { return 0; }
+    public double consumoEnergetico() {
+        return 0.8 * superficieColtivata;
+    }
 }

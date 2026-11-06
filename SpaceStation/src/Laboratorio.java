@@ -15,5 +15,7 @@ public class Laboratorio extends ModuloStazione {
     public int esperimentiInCorso() { return 0; }
 
     @Override
-    public double consumoEnergetico() { return 0; }
+    public double consumoEnergetico() {
+        return 5.0 + 2.0 * numEsperimenti;
+    }
 }

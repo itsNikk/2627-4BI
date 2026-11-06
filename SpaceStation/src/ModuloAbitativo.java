@@ -15,5 +15,7 @@ public class ModuloAbitativo extends ModuloStazione {
     public boolean rimuoviOccupante(Astronauta a) { return false; }
 
     @Override
-    public double consumoEnergetico() { return 0; }
+    public double consumoEnergetico() {
+        return 3.0 + 1.5 * numOccupanti;
+    }
 }
