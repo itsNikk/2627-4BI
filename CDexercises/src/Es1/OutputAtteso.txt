@@ -1,0 +1,27 @@
+Abissi aggiunge T1: riuscito
+Abissi aggiunge F1: riuscito
+Abissi aggiunge T2: riuscito
+Abissi aggiunge un'altra T1: rifiutato
+T1 accoglie Lino: riuscito, vasca di Lino: T1
+T1 accoglie Gea: riuscito
+T1 accoglie Rex: riuscito
+T1 accoglie Ombra: rifiutato, vasca di Ombra: nessuna
+F1 accoglie Bolla: riuscito
+T2 accoglie Lino: rifiutato, vasca di Lino: T1
+T1 (2000.0 l), pesci: 3, costo: 16.0 euro
+F1 (1500.0 l), pesci: 1, costo: 7.5 euro
+T2 (600.0 l), pesci: 0, costo: 10.0 euro
+Costo giornaliero totale: 33.5 euro, vasca piu' costosa: T1
+T2 accoglie Perla: riuscito
+T2 accoglie Ombra: riuscito
+T2: OK
+Marina trasferisce Gea in T2: riuscito, vasca di Gea: T2
+T2: OK
+Marina trasferisce Rex in T2: rifiutato, vasca di Rex: T1, pesci in T1: 2
+Marina trasferisce Bolla in F1: rifiutato
+Marina trasferisce Zeta in F1: rifiutato, vasca di Zeta: nessuna
+F1 ha 10 pesci; accoglie l'undicesimo: rifiutato
+F1: SOVRAFFOLLATA
+T1 toglie Lino: riuscito, vasca di Lino: nessuna
+T1 toglie di nuovo Lino: rifiutato
+Costo giornaliero totale: 49.0 euro, vasca piu' costosa: F1
